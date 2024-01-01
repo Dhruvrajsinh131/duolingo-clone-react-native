@@ -10,6 +10,7 @@ import OpenEndedQuestion from "./src/components/OpenEndedQuestion";
 import questions from "./assets/data/allQuestions";
 import HeaderBar from "./src/components/HeaderBar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import FillInTheBlank from "./src/components/FillInTheBlank";
 
 const App = () => {
   const [currentQuestionIndex, setcurrentQuestionIndex] = useState(0);
@@ -21,6 +22,7 @@ const App = () => {
   useEffect(() => {
     if (currentQuestionIndex >= questions.length) {
       Alert.alert("You Won");
+      setLives(5);
       setcurrentQuestionIndex(0);
     } else {
       setCurrentQuestion(questions[currentQuestionIndex]);
@@ -86,6 +88,7 @@ const App = () => {
         progress={currentQuestionIndex / questions.length}
         lives={lives}
       />
+
       {currentQuestion.type === "IMAGE_MULTIPLE_CHOICE" && (
         <ImageMultipleChoiceQuestion
           question={currentQuestion}
@@ -95,6 +98,13 @@ const App = () => {
       )}
       {currentQuestion.type === "OPEN_ENDED" && (
         <OpenEndedQuestion
+          question={currentQuestion}
+          onCorrect={onCorrect}
+          onWrong={onWrong}
+        />
+      )}
+      {currentQuestion.type === "FILL_IN_THE_BLANK" && (
+        <FillInTheBlank
           question={currentQuestion}
           onCorrect={onCorrect}
           onWrong={onWrong}
